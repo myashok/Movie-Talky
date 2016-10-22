@@ -8,7 +8,11 @@
     <string name="pref_sort_label">Sort</string>
     <string name="pref_sort_popularity_name">Popularity</string>
     <string name="pref_sort_rating_name">Rating</string>
-    <string name="pref_sort_popularity_value">popularity.desc</string>
-    <string name="pref_sort_rating_value">vote_average.desc</string>
+    <string name="pref_sort_popularity_value">popular</string>
+    <string name="pref_sort_rating_value">top_rated</string>
+    <string name="overview">overview</string>
+    <string name="release_date">release date</string>
+    <string name="rating">rating</string>
+    <string name="detail_activity">Detail</string>
 
 </resources>

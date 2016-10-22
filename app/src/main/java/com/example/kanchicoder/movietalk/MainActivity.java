@@ -1,6 +1,8 @@
 package com.example.kanchicoder.movietalk;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +14,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new MainActivityFragment())
+                    .commit();
+        }
     }
 
 
@@ -26,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_settings) {
             startActivity(new Intent(this, SettingActivity.class));
+
             return true;
         }
         return super.onOptionsItemSelected(item);

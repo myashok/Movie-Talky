@@ -56,6 +56,9 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
+        PreferenceManager.setDefaultValues(getActivity(), R.xml.pref_general, false);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean autoStart = sharedPreferences.getBoolean("pref_boot_startup", true);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         ArrayList<MovieDetails> movieDetails = new ArrayList<MovieDetails>();
         movieDetailsAdapter = new MovieDetailsAdapter(getActivity(), movieDetails);
@@ -119,9 +122,9 @@ public class MainActivityFragment extends Fragment {
             String movieJsonStr = null;
 
             try {
-
+                //Embed your api Key
                 String baseUrl = "http://api.themoviedb.org/3/movie/"+params[0]+"?";
-                String apiKey = "api_key=" + "YourApiKey";
+                String apiKey = "api_key=" + "YourAPIKEY";
                 URL url = new URL(baseUrl.concat(apiKey));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");

@@ -2,7 +2,6 @@ package com.example.kanchicoder.movietalk;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by kanchicoder on 10/22/2016.
@@ -124,7 +122,7 @@ public class MainActivityFragment extends Fragment {
             try {
                 //Embed your api Key
                 String baseUrl = "http://api.themoviedb.org/3/movie/"+params[0]+"?";
-                String apiKey = "api_key=" + "YourAPIKEY";
+                String apiKey = "api_key=" + "YourApiKey";
                 URL url = new URL(baseUrl.concat(apiKey));
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");

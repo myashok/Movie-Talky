@@ -2,10 +2,6 @@ package com.example.kanchicoder.movietalk;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
-=======
-import android.os.AsyncTask;
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -16,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-<<<<<<< HEAD
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,21 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-=======
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-<<<<<<< HEAD
-=======
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
 import java.util.ArrayList;
 
 /**
@@ -47,14 +31,10 @@ import java.util.ArrayList;
 
 public class MainActivityFragment extends Fragment {
     MovieDetailsAdapter movieDetailsAdapter;
-<<<<<<< HEAD
     private RequestQueue requestQueue;
     private String jsonURL;
     private MovieDetails[] results;
 
-=======
-    private String sortingCriteria;
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
     public MainActivityFragment() {
     }
     @Override
@@ -63,16 +43,9 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void updateMovie(){
-<<<<<<< HEAD
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortBy = pref.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_popularity_value));
         fetchMovieTask(sortBy);
-=======
-        FetchMovieTask movieTask = new FetchMovieTask();
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortBy = pref.getString(getString(R.string.pref_sort_key), getString(R.string.pref_sort_popularity_value));
-        movieTask.execute(sortBy);
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
     }
 
     @Override
@@ -103,7 +76,6 @@ public class MainActivityFragment extends Fragment {
         });
         return rootView;
     }
-<<<<<<< HEAD
     public  void fetchMovieTask(String sortBy) {
         requestQueue = Volley.newRequestQueue(getContext());
         String baseUrl = "http://api.themoviedb.org/3/movie/" + sortBy + "?";
@@ -156,115 +128,4 @@ public class MainActivityFragment extends Fragment {
 
     }
 
-=======
-    public class FetchMovieTask extends AsyncTask<String, Void, MovieDetails[]> {
-        private final String LOG_TAG = FetchMovieTask.class.getSimpleName();
-
-        private MovieDetails[] getMovieDataFromJson(String movieJsonStr)
-                throws JSONException {
-
-            final String MOV_RESULTS = "results";
-            final String MOV_TITLE = "original_title";
-            final String MOV_DATE = "release_date";
-            final String MOV_OVERVIEW = "overview";
-            final String MOV_POSTER = "poster_path";
-            final String MOV_VOTE = "vote_average";
-            JSONObject movieJson = new JSONObject(movieJsonStr);
-            JSONArray movieArray = movieJson.getJSONArray(MOV_RESULTS);
-
-            MovieDetails[] results = new MovieDetails[movieArray.length()];
-
-            for(int i = 0; i < movieArray.length(); i++) {
-                JSONObject jsonmovieDetails = movieArray.getJSONObject(i);
-
-                MovieDetails movieDetails = new MovieDetails();
-                movieDetails.originalName = jsonmovieDetails.getString(MOV_TITLE);
-                movieDetails.releaseDate = jsonmovieDetails.getString(MOV_DATE);
-                movieDetails.movieOverview = jsonmovieDetails.getString(MOV_OVERVIEW);
-                movieDetails.posterLink = jsonmovieDetails.getString(MOV_POSTER);
-                movieDetails.userRating = jsonmovieDetails.getDouble(MOV_VOTE);
-
-                results[i] = movieDetails;
-
-
-            }
-            return results;
-
-        }
-
-        @Override
-        protected MovieDetails[] doInBackground(String... params) {
-            // These two need to be declared outside the try/catch
-            // so that they can be closed in the finally block.
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-
-            // Will contain the raw JSON response as a string.
-            String movieJsonStr = null;
-
-            try {
-                //Embed your api Key
-                String baseUrl = "http://api.themoviedb.org/3/movie/"+params[0]+"?";
-                String apiKey = "api_key=" + "YourApiKey";
-                URL url = new URL(baseUrl.concat(apiKey));
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    return null;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0) {
-                    return null;
-                }
-                movieJsonStr = buffer.toString();
-
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
-
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-
-            try {
-                if(movieJsonStr != null)
-                    return  getMovieDataFromJson(movieJsonStr);
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-        @Override
-        protected void onPostExecute(MovieDetails[] result) {
-           movieDetailsAdapter.clear();
-            if(result != null) {
-                for (int i = 0; i < result.length; i++) {
-                    movieDetailsAdapter.add(result[i]);
-                }
-            }
-
-        }
-    }
->>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
 }

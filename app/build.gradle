@@ -30,6 +30,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.2.1'
     testCompile 'junit:junit:4.12'
+<<<<<<< HEAD
     compile 'com.mcxiaoke.volley:library:1.0.19'
+=======
+>>>>>>> 64e84d09f306e66a6e05030639e2ff10a8c69ca7
     compile files('libs/picasso-2.5.2.jar')
 }
